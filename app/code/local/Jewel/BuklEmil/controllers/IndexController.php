@@ -1,6 +1,30 @@
 <?php
 class Jewel_BuklEmil_IndexController extends Mage_Core_Controller_Front_Action{
     public function IndexAction() {
+        
+        #Mage::helper('buklemil')->sendNewsletterMail();
+        Mage::app('admin')->setUseSessionInUrl(false);   
+        $test_order_ids=array(
+            '100000009',
+            '100000008',
+            '100000007',
+            '100000006',
+            '100000005',
+            '100000004',
+            '100000003',
+            '100000002',
+            '100000001',
+        );
+        foreach($test_order_ids as $id){
+            try{
+                Mage::getModel('sales/order')->loadByIncrementId($id)->delete();
+                echo "order #".$id." is removed".PHP_EOL;
+            }catch(Exception $e){
+                echo "order #".$id." could not be remvoved: ".$e->getMessage().PHP_EOL;
+            }
+        }
+        echo "complete.";
+        
         # https://stackoverflow.com/questions/7500038/how-to-use-the-email-template-in-magento
         # http://blog.chapagain.com.np/magento-send-transactional-email/
 	  $this->loadLayout();   
